@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EventController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,14 +18,8 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-Route::get('/',function() {
-    return view('home');
-});
-
-Route::get('/add', function() {
-    return view('addEvents');
-});
-
-Route::get('/detail', function() {
-    return view('detailEvents');
-});
+Route::get('/', [EventController::class, 'index']);
+Route::match(['get', 'post'], '/add', [EventController::class, 'create']);
+Route::match(['get', 'post'], '/detail/{id}', [EventController::class, 'show']);
+Route::put('detail/{id}', [EventController::class, 'update'])->name('events.update');
+Route::delete('/detail/{id}', [EventController::class, 'delete'])->name('event.delete');
